@@ -2,13 +2,9 @@ package ru.stqa.geometry.figures;
 
 public record Rectangle(double a, double b) {
 
-    public static void printArea(Rectangle a) {
-        var text = String.format("Площадь прямоугольника со сторонами %f  %f = %f", a.a, a.b, a.area());
+    public static void printArea(Rectangle rectangle) {
+        var text = String.format("Площадь прямоугольника со сторонами %f  %f = %f", rectangle.a, rectangle.b, rectangle.area());
         System.out.println(text);
-    }
-
-    private static double area(double a, double b) {
-        return a * b;
     }
 
     public double area() {

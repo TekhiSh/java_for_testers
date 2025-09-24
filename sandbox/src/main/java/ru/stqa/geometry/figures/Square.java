@@ -2,9 +2,9 @@ package ru.stqa.geometry.figures;
 
 public record Square(double side) {
 
-    public static void printArea(Square s) {
+    public static void printArea(Square square) {
         String text = String.format(
-                "Площадь квадрата со стороной %f = %f", s.side, s.area());
+                "Площадь квадрата со стороной %f = %f", square.side, square.area());
         System.out.println(text);
     }
 
