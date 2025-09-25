@@ -3,8 +3,14 @@ package ru.stqa.geometry.figures;
 public record Triangle(double a, double b, double c) {
 
     public static void printArea(Triangle triangle) {
-        var text = String.format("Площадь треугольник со сторонами %f,  %f и  %f= %f",
-                triangle.a, triangle.b, triangle.a, triangle.area());
+        var text = String.format("Площадь треугольника со сторонами %f,  %f и  %f= %f",
+                triangle.a, triangle.b, triangle.c, triangle.area());
+        System.out.println(text);
+    }
+
+    public static void printPerimeter(Triangle triangle) {
+        var text = String.format("Периметр треугольника со сторонами %f,  %f и  %f= %f",
+                triangle.a, triangle.b, triangle.c, triangle.perimeter());
         System.out.println(text);
     }
 
