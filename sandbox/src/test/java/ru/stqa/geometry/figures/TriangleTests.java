@@ -15,4 +15,25 @@ public class TriangleTests {
     void canCalculatePerimeter() {
         Assertions.assertEquals(20.0, new Triangle(6, 6,8).perimeter());
     }
+
+    @Test
+    void cannotCreateTriangleWithNegativeSide() {
+        try {
+            new Triangle(-3.0, -3.0,-3.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            //OK
+        }
+    }
+
+    @Test
+    void cannotBreakTriangleInequality () {
+        try {
+            new Triangle(3.0, 4.0, 8.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            //OK
+        }
+
+    }
 }
