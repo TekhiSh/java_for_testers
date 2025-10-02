@@ -25,8 +25,10 @@ public record Rectangle(
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Rectangle rectangle = (Rectangle) o;
-        return (Double.compare(this.a, rectangle.a) == 0 && Double.compare(this.b, rectangle.b) == 0)
-                ||(Double.compare(this.b, rectangle.a) == 0 && Double.compare(this.a, rectangle.b) == 0);
+        return (Double.compare(this.a, rectangle.a) == 0
+                && Double.compare(this.b, rectangle.b) == 0)
+                ||(Double.compare(this.b, rectangle.a) == 0
+                && Double.compare(this.a, rectangle.b) == 0);
     }
 
     @Override
