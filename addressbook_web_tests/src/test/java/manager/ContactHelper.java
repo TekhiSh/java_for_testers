@@ -66,4 +66,19 @@ public class ContactHelper extends HelperBase {
     private void initContactCreation() {
         click(By.linkText("add new"));
     }
+
+    public void removeContact() {
+        openHomePage();
+        selectContact();
+        removeCreatedContact();
+        returnToHomePage();
+    }
+
+    private void removeCreatedContact() {
+        click(By.name("delete"));
+    }
+
+    private void selectContact() {
+        click(By.name("selected[]"));
+    }
 }

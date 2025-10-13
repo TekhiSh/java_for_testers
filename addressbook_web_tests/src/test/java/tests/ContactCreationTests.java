@@ -7,9 +7,10 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void canCreateContact() {
-        app.contacts().createContact(new ContactData("first name", "", "last name", "", "", "",
-                "", "", "+12223334455", "", "", "email@email.ai",
-                "", "", ""));
+        app.contacts().createContact(new ContactData("first name", "", "last name",
+                "nickname", "", "", "address",
+                "", "+12223334455", "", "",
+                "email@email.ai", "", "", "http://localhost/addressbook/"));
     }
 
     @Test
