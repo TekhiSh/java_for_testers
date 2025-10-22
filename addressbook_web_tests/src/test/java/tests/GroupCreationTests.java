@@ -34,6 +34,6 @@ public class GroupCreationTests extends TestBase {
         }
 
         int newGroupCount = app.groups().getCount();
-        Assertions.assertEquals(groupCount + 1, newGroupCount);
+        Assertions.assertEquals(groupCount + n, newGroupCount);
     }
 }
