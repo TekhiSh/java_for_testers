@@ -1,25 +1,43 @@
 package tests;
 
 import model.ContactData;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-    @Test
-    public void canCreateContact() {
-        app.contacts().createContact(new ContactData("first name", "", "last name",
-                "nickname", "", "", "address",
-                "", "+12223334455", "", "",
-                "email@email.ai", "", "", "http://localhost/addressbook/"));
+    public static List<ContactData> contactProvider() {
+        var result = new ArrayList<ContactData>();
+        for (var firstName : List.of("", "first name")) {
+            for (var lastName : List.of("", "last name")) {
+                        for (var address : List.of("", "address test")) {
+                            result.add(new ContactData(firstName, "", lastName,
+                                    "", "", "", address, "", "",
+                                    "", "", "", "", "", ""));
+
+
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            result.add(new ContactData(randomString(i * 10), randomString(i * 10), randomString(i * 10),
+                    randomString(i * 10), randomString(i * 10), randomString(i * 10), randomString(i * 10), "",
+                    "+12223334455", "", "",
+                    "email@email.ai", "", "", "http://localhost/addressbook/"));
+        }
+        return result;
     }
 
-    @Test
-    public void canCreateEmptyContact() {
-        app.contacts().createEmptyContact();
-    }
-
-    @Test
-    public void canCreateContactWithLastNameOnly() {
-        app.contacts().createContact(new ContactData().withLastName("some last name"));
+    @ParameterizedTest
+    @MethodSource("contactProvider")
+    public void canCreateMultipleContacts(ContactData contact) {
+        int contactCount = app.contacts().getCount();
+        app.contacts().createContact(contact);
+        int newContactCount = app.contacts().getCount();
+        Assertions.assertEquals(contactCount + 1, newContactCount);
     }
 }
