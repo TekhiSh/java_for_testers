@@ -3,6 +3,9 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactHelper extends HelperBase {
 
     public ContactHelper(ApplicationManager manager) {
@@ -13,11 +16,6 @@ public class ContactHelper extends HelperBase {
         if (!manager.isElementPresent(By.name("searchstring"))) {
             click(By.linkText("home"));
         }
-    }
-
-    public boolean isContactPresent() {
-        openHomePage();
-        return !manager.isElementPresent(By.name("selected[]"));
     }
 
     public int getCount() {
@@ -66,9 +64,9 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void removeContact() {
+    public void removeContact(ContactData contact) {
         openHomePage();
-        selectContact();
+        selectContact(contact);
         removeSelectedContacts();
         returnToHomePage();
     }
@@ -77,8 +75,8 @@ public class ContactHelper extends HelperBase {
         click(By.name("delete"));
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactData contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     public void removeAllContacts() {
@@ -92,5 +90,18 @@ public class ContactHelper extends HelperBase {
         for (var checkbox : checkboxes) {
             checkbox.click();
         }
+    }
+
+    public List<ContactData> getList() {
+        var contacts = new ArrayList<ContactData>();
+        var rows = manager.driver.findElements(By.name("entry"));
+        for (var row : rows) {
+            var firstName = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
+            var lastName = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
+            var checkbox = row.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+        }
+        return contacts;
     }
 }
