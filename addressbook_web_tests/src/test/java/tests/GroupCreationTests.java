@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -24,9 +25,10 @@ public class GroupCreationTests extends TestBase {
 //                }
 //            }
 //        }
+        var json = Files.readString(Paths.get("groups.json"));
         ObjectMapper mapper = new ObjectMapper();
         var value = mapper.
-                readValue(new File("groups.json"),
+                readValue(json,
                         new TypeReference<List<GroupData>>() {});
         result.addAll(value);
         return result;
