@@ -1,5 +1,6 @@
 package tests;
 
+import common.CommonFunctions;
 import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class ContactModificationTests extends TestBase {
         var oldContacts = app.contacts().getList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
-        var testContact = new ContactData().withFirstName(randomString(26));
+        var testContact = new ContactData().withFirstName(CommonFunctions.randomString(26));
         app.contacts().modifyContact(oldContacts.get(index), testContact);
         var newContacts = app.contacts().getList();
         var expectedList = new ArrayList<>(oldContacts);
