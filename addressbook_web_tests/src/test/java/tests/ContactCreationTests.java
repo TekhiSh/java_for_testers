@@ -26,7 +26,7 @@ public class ContactCreationTests extends TestBase {
         }
         for (int i = 0; i < 3; i++) {
             result.add(new ContactData("", randomString(i * 10), randomString(i * 10), randomString(i * 10),
-                    randomString(i * 10), "", randomString(i * 10), randomString(i * 10), randomString(i * 10), "",
+                    randomString(i * 10), "src/test/resources/images/avatar.png", randomString(i * 10), randomString(i * 10), randomString(i * 10), "",
                     "+12223334455", "", "",
                     "email@email.ai", "", "", "http://localhost/addressbook/"));
         }
