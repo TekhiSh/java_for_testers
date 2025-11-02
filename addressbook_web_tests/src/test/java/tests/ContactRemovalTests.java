@@ -13,7 +13,7 @@ public class ContactRemovalTests extends TestBase {
     public void canRemoveContact() {
         if (app.contacts().getCount() == 0) {
             app.contacts().createContact(new ContactData("", "first", "", "last",
-                    "", "", "", "", "", "",
+                    "", "", "", "", "", "", "",
                     "", "", "", "", "", ""));
         }
         var oldContacts = app.contacts().getList();
