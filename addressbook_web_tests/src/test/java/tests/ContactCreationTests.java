@@ -1,36 +1,41 @@
 package tests;
 
-import common.CommonFunctions;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-    public static List<ContactData> contactProvider() {
+    public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
         for (var firstName : List.of("", "first name")) {
             for (var lastName : List.of("", "last name")) {
-                        for (var address : List.of("", "address test")) {
-                            result.add(new ContactData("", firstName, "", lastName,
-                                    "", "", "", "", address, "", "",
-                                    "", "", "", "", "", ""));
+                for (var address : List.of("", "address test")) {
+                    result.add(new ContactData("", firstName, "", lastName,
+                            "", "", "", "", address, "", "",
+                            "", "", "", "", "", ""));
 
 
                 }
             }
         }
-        for (int i = 0; i < 3; i++) {
-            result.add(new ContactData("", CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-                    CommonFunctions.randomString(i * 10), randomFile("src/test/resources/images"), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), "",
-                    "+12223334455", "", "",
-                    "email@email.ai", "", "", "http://localhost/addressbook/"));
-        }
+        var json = Files.readString(Paths.get("contacts.json"));
+        var mapper = new JsonMapper();
+        var value = mapper.
+                readValue(json,
+                        new TypeReference<List<ContactData>>() {
+                        });
+        result.addAll(value);
         return result;
     }
 

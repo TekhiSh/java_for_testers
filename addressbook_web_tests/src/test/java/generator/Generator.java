@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import common.CommonFunctions;
+import model.ContactData;
 import model.GroupData;
 
 import java.io.File;
@@ -16,16 +17,16 @@ import java.util.ArrayList;
 
 public class Generator {
 
-    @Parameter(names={"--type", "-t"})
+    @Parameter(names = {"--type", "-t"})
     String type;
 
-    @Parameter(names={"--output", "-o"})
+    @Parameter(names = {"--output", "-o"})
     String output;
 
-    @Parameter(names={"--format", "-f"})
+    @Parameter(names = {"--format", "-f"})
     String format;
 
-    @Parameter(names={"--count", "-n"})
+    @Parameter(names = {"--count", "-n"})
     int count;
 
     public static void main(String[] args) throws IOException {
@@ -48,7 +49,7 @@ public class Generator {
         } else if ("contacts".equals(type)) {
             return generateContacts();
         } else {
-            throw  new IllegalArgumentException("Unknown data type " + type);
+            throw new IllegalArgumentException("Unknown data type " + type);
         }
     }
 
@@ -64,7 +65,21 @@ public class Generator {
     }
 
     private Object generateContacts() {
-        return null;
+        var result = new ArrayList<ContactData>();
+        for (int i = 0; i < 3; i++) {
+            result.add(new ContactData()
+                    .withFirstName(CommonFunctions.randomString(i * 10))
+                    .withMiddleName(CommonFunctions.randomString(i * 10))
+                    .withLastName(CommonFunctions.randomString(i * 10))
+                    .withAddress(CommonFunctions.randomString(i * 10))
+                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+
+//                    ("", CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
+//                    CommonFunctions.randomString(i * 10), randomFile("src/test/resources/images"), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), "",
+//                    "+12223334455", "", "",
+//                    "email@email.ai", "", "", "http://localhost/addressbook/"));
+        }
+        return result;
     }
 
     private void save(Object data) throws IOException {
@@ -76,10 +91,10 @@ public class Generator {
             try (var writer = new FileWriter(output)) {
                 writer.write(json);
             }
-        } if ("yaml".equals(format))  {
+        } else if ("yaml".equals(format)) {
             var mapper = new YAMLMapper();
             mapper.writeValue(new File(output), data);
-        } if ("xml".equals(format)) {
+        } else if ("xml".equals(format)) {
             var mapper = new XmlMapper();
             mapper.writeValue(new File(output), data);
         } else {
