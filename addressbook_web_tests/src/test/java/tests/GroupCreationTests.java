@@ -67,8 +67,16 @@ public class GroupCreationTests extends TestBase {
         Assertions.assertEquals(newGroups, expectedList);
 
         var newUiGroups = app.groups().getList();
-        var uiExpectedList = new ArrayList<>(oldGroups);
-        uiExpectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).withHeader("").withFooter(""));
+        newUiGroups.sort(compareById);
+        var uiExpectedList = new ArrayList<GroupData>();
+        for (var expectedGroup : expectedList) {
+            var newGroupData = new GroupData()
+                    .withId(expectedGroup.id())
+                    .withName(expectedGroup.name())
+                    .withHeader("")
+                    .withFooter("");
+            uiExpectedList.add(newGroupData);
+        }
         uiExpectedList.sort(compareById);
         Assertions.assertEquals(newUiGroups, uiExpectedList);
     }
