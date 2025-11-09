@@ -73,11 +73,6 @@ public class Generator {
                     .withLastName(CommonFunctions.randomString(i * 10))
                     .withAddress(CommonFunctions.randomString(i * 10))
                     .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
-
-//                    ("", CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10),
-//                    CommonFunctions.randomString(i * 10), randomFile("src/test/resources/images"), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10), "",
-//                    "+12223334455", "", "",
-//                    "email@email.ai", "", "", "http://localhost/addressbook/"));
         }
         return result;
     }
