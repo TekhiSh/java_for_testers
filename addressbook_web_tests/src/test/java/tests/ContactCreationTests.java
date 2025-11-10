@@ -42,12 +42,52 @@ public class ContactCreationTests extends TestBase {
         return result;
     }
 
+    public static List<ContactData> singleRandomContact() {
+        return List.of(new ContactData()
+                .withFirstName(CommonFunctions.randomString(10))
+                .withLastName(CommonFunctions.randomString(20))
+                .withAddress(CommonFunctions.randomString(30))
+                .withHomepage(CommonFunctions.randomString(15)));
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleRandomContact")
+    public void canCreateContact(ContactData contact) {
+        var oldContacts = app.hbm().getContactList();
+        app.contacts().createContact(contact);
+        var newContacts = app.hbm().getContactList();
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newContacts.sort(compareById);
+        var maxId = newContacts.get(newContacts.size() - 1).id();
+        var expectedList = new ArrayList<>(oldContacts);
+        expectedList.add(contact.withId(maxId));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newContacts, expectedList);
+
+        var newUiContacts = app.contacts().getList();
+        newUiContacts.sort(compareById);
+        var uiExpectedList = new ArrayList<ContactData>();
+        for (var expectedContact : expectedList) {
+            var newContactData = new ContactData()
+                    .withId(expectedContact.id())
+                    .withFirstName(expectedContact.firstName())
+                    .withLastName(expectedContact.lastName())
+                    .withAddress(expectedContact.address())
+                    .withHomepage("");
+            uiExpectedList.add(newContactData);
+        }
+        uiExpectedList.sort(compareById);
+        Assertions.assertEquals(newUiContacts, uiExpectedList);
+    }
+
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultipleContacts(ContactData contact) {
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
@@ -55,7 +95,7 @@ public class ContactCreationTests extends TestBase {
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id())
                 .withMiddleName("").withNickname("").withPhoto("").withTitle("").withCompany("")
-                .withAddress("").withEmail("").withHomepage("").withMobilePhone(""));
+                .withEmail("").withHomepage("").withMobilePhone(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
     }

@@ -112,9 +112,10 @@ public class ContactHelper extends HelperBase {
         for (var row : rows) {
             var firstName = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
             var lastName = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
+            var address = row.findElement(By.cssSelector("td:nth-child(4)")).getText();
             var checkbox = row.findElement(By.name("selected[]"));
             var id = checkbox.getAttribute("value");
-            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName).withAddress(address));
         }
         return contacts;
     }
