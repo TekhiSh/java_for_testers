@@ -12,13 +12,15 @@ public class ContactRecord {
     public String firstname;
     public String lastname;
     public String address;
+    public String homepage;
 
     public ContactRecord() {}
 
-    public ContactRecord(int id, String firstname, String lastname, String address) {
+    public ContactRecord(int id, String firstname, String lastname, String address, String homepage) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
+        this.homepage = homepage;
     }
 }
